@@ -84,7 +84,7 @@ async function getEvents() {
   <!-- Events -->
   <h2 class="p-5"> Upcoming Events</h2>
   <section class="container">
-    <div class="row p-4">
+    <div class="row p-2">
       <EventCard class="selectable" v-for="towerEvent in towerEvents" :key="towerEvent.id" :towerEvent="towerEvent" />
     </div>
   </section>
