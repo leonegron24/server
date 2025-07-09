@@ -15,9 +15,13 @@ export const AppState = reactive({
   /** @type {TowerEvent []} */
   towerEvents: [],
 
-  types: []
+  types: [],
+
+  /** @type {TowerEvent} */
+  eventDetails: null,
+
+  attendees: ['leo', 'john', 'jake' ]
 
 
-  
 })
 

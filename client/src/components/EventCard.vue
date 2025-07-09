@@ -13,7 +13,9 @@ const props = defineProps({ towerEvent: TowerEvent })
 <template>
     <div class="col-md-4 g-3">
         <div class="position-relative">
-            <img class="coverImg img-fluid rounded" :src="towerEvent.coverImg" alt="">
+            <RouterLink :to="{ name: 'EventDetails', params: {eventId: towerEvent.id } }">
+                <img class="coverImg img-fluid rounded" :src="towerEvent.coverImg" alt="">
+            </RouterLink>
             <div v-if="towerEvent.isCanceled">
                 <div class="position-absolute top-0 border rounded bg-danger">Cancelled</div>
             </div>
@@ -21,7 +23,7 @@ const props = defineProps({ towerEvent: TowerEvent })
         <div>
             <h5 class="mt-2">{{ towerEvent.name }}</h5>
             <p>Hosted By {{ towerEvent.creator.name }}</p>
-            <p>{{ towerEvent.formatStartDate() }} -  {{ towerEvent.location }}</p>
+            <p>{{ towerEvent.formatStartDate() }} - {{ towerEvent.location }}</p>
             <p>{{ towerEvent.ticketCount }} attending</p>
         </div>
     </div>
@@ -29,15 +31,15 @@ const props = defineProps({ towerEvent: TowerEvent })
 
 
 <style lang="scss" scoped>
-    .coverImg{
-        max-height: 15em;
-        object-fit: cover;
-        object-position: center;
-        aspect-ratio: 1.5/1;
-    }
+.coverImg {
+    max-height: 15em;
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 1.5/1;
+}
 
-    p{
-        padding:0;
-        margin: 0;
-    }
+p {
+    padding: 0;
+    margin: 0;
+}
 </style>

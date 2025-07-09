@@ -4,6 +4,9 @@ import EventCard from '@/components/EventCard.vue';
 import { towerEventService } from '@/services/TowerEventService.js';
 import { Pop } from '@/utils/Pop.js';
 import { computed, onMounted } from 'vue';
+import { Modal } from 'bootstrap'
+import CreateEventModal from '@/components/CreateEventModal.vue';
+
 
 // OnMounted
 onMounted(() => {
@@ -13,6 +16,7 @@ onMounted(() => {
 // Computed
 const towerEvents = computed(() => AppState.towerEvents)
 const types = computed(() => AppState.types)
+const account = computed(() => AppState.account)
 const typeImages = {
   concert: '🎸',
   convention: '🫂',
@@ -32,11 +36,17 @@ async function getEvents() {
   }
 }
 
+function openCreateModal() {
+  const modal = new Modal(document.getElementById('createEventModal'))
+  modal.show()
+}
 
 
 </script>
 
 <template>
+
+  <!-- Picture / Site Intro -->
   <section class="position-relative">
     <img class="img-fluid pic"
       src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGV2ZW50fGVufDB8fDB8fHww"
@@ -55,15 +65,23 @@ async function getEvents() {
   <h2 class="p-5">How Tower Works</h2>
   <section class="container">
     <div class="row justify-content-around">
+      <!-- Search -->
       <div class="col-md-5 border backGround p-4">
         <h5><i class="btn mdi mdi-magnify p-2 fs-1"></i> Discover events you're interested in</h5>
         <p>Browse through community hosted events for all the things you know</p>
       </div>
-      <div class="col-md-5 border  backGround p-4">
-        <h5><i class="btn mdi mdi-plus p-2 fs-1"></i> Start an event to invite your friends!</h5>
+      <!-- Create -->
+      <div v-if="account" class="col-md-5 border backGround p-4">
+        <h5>
+          <i @click="openCreateModal" class="btn mdi mdi-plus p-2 fs-1"></i>
+          Start an event to invite your friends!
+        </h5>
         <p>Create your own Tower event, and draw from a <br />community of millions </p>
-        <button class="text-success btn btn-clear p-0"> Create an event</button>
+        <button @click="openCreateModal" class="text-success btn btn-clear p-0">Create an event</button>
       </div>
+      <!-- CreateEventModal -->
+      <CreateEventModal />
+
     </div>
   </section>
 

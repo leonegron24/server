@@ -17,11 +17,11 @@ watch(theme, () => {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-md bg-codeworks border-bottom border-vue">
+  <nav class="navbar navbar-expand-md  border-vue p-4">
     <div class="container gap-2">
-      <RouterLink :to="{ name: 'Home' }" class="d-flex align-items-center text-light">
-        <img class="navbar-brand" alt="logo" src="/img/cw-logo.png" height="45" />
-        <b class="fs-5"></b>
+      <RouterLink :to="{ name: 'Home' }" class="d-flex align-items-center text-primary">
+        <img class="" alt="logo" src="https://media.istockphoto.com/id/1482381591/photo/caricature-of-a-funny-and-cute-giraffe-upside-down-with-teeth-and-big-eyes-perspective-effect.webp?a=1&b=1&s=612x612&w=0&k=20&c=d7T9B_cjuHGNkA5e7K8Opbv0lGAyelAaqMcLMhOGQJs=" height="45" />
+        <b class="fs-5">Tower</b>
       </RouterLink>
       <!-- collapse button -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-links"
@@ -39,7 +39,7 @@ watch(theme, () => {
         </ul>
         <!-- LOGIN COMPONENT HERE -->
         <div class="ms-auto">
-          <button class="btn text-light" @click="toggleTheme"
+          <button class="btn text-secondary" @click="toggleTheme"
             :title="`Enable ${theme == 'light' ? 'dark' : 'light'} theme.`">
             <i v-if="theme == 'dark'" class="mdi mdi-weather-sunny"></i>
             <i v-if="theme == 'light'" class="mdi mdi-weather-night"></i>
