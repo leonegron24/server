@@ -1,5 +1,7 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { TowerEvent } from '@/models/TowerEvent.js';
+import { computed } from 'vue';
 
 
 const props = defineProps({ towerEvent: TowerEvent })
@@ -13,11 +15,14 @@ const props = defineProps({ towerEvent: TowerEvent })
 <template>
     <div class="col-md-4 g-3">
         <div class="position-relative">
-            <RouterLink :to="{ name: 'EventDetails', params: {eventId: towerEvent.id } }">
+            <RouterLink :to="{ name: 'EventDetails', params: { eventId: towerEvent.id } }">
                 <img class="coverImg img-fluid rounded" :src="towerEvent.coverImg" alt="">
             </RouterLink>
             <div v-if="towerEvent.isCanceled">
                 <div class="position-absolute top-0 border rounded bg-danger">Cancelled</div>
+            </div>
+            <div v-if="towerEvent.soldOut && !towerEvent.isCanceled">
+                <div class="position-absolute top-0 border rounded bg-warning">SoldOut</div>
             </div>
         </div>
         <div>

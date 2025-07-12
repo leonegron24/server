@@ -33,6 +33,10 @@ export class TowerEvent {
         this.ticketCount = data.ticketCount
     }
 
+    get soldOut(){
+        return this.ticketCount >= this.capacity
+    }
+
 
     formatStartDate() {
         const date = new Date(this.startDate)

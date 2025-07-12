@@ -1,9 +1,13 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { towerEventService } from '@/services/TowerEventService.js';
 import { Pop } from '@/utils/Pop.js';
 import { Modal } from 'bootstrap';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const types = computed(() => AppState.types)
+const router = useRouter()
 
 const formData = ref({
     name: '',
@@ -15,27 +19,28 @@ const formData = ref({
     description: ''
 })
 
+function resetForm() {
+    formData.value = {
+        name: '',
+        coverImg: '',
+        location: '',
+        type: '',
+        startDate: null,
+        capacity: null,
+        description: ''
+    }
+}
+
 
 async function createEvent() {
     try {
         console.log('Event Creation Data: ', formData.value)
-        await towerEventService.createEvent(formData.value)
+        const newEvent = await towerEventService.createEvent(formData.value)
         Pop.success('Event Created!')
+        const modal = Modal.getOrCreateInstance(document.getElementById('event-form')).hide()
+        resetForm()
+        router.push({name: 'EventDetails', params: {eventId: newEvent.id}})
 
-        const modalEl = document.getElementById('createEventModal')
-        const bsModal = Modal.getInstance(modalEl)
-        if (bsModal) bsModal.hide()
-        
-
-        Object.assign(formData.value, {
-            name: '',
-            coverImg: '',
-            location: '',
-            type: '',
-            startDate: null,
-            capacity: null,
-            description: ''
-        })
     }
     catch (error) {
         Pop.error(error);
@@ -47,8 +52,7 @@ async function createEvent() {
 
 
 <template>
-    <div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="event-modal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -57,7 +61,7 @@ async function createEvent() {
                 </div>
                 <div class="modal-body">
                     <!-- Your create event form goes here -->
-                    <form @submit.prevent="createEvent">
+                    <form @submit.prevent="createEvent()">
                         <div class="d-flex">
                             <!-- Img Preview -->
                             <div class="w-75 text-center p-2  m-4">
@@ -84,10 +88,9 @@ async function createEvent() {
                                     <select required v-model="formData.type" name="type" class="form-control"
                                         id="eventType">
                                         <option value="" disabled>Select a type</option>
-                                        <option value="concert">Concert</option>
-                                        <option value="sport">Sport</option>
-                                        <option value="convention">Convention</option>
-                                        <option value="digital">Digital</option>
+                                        <option v-for="type in types" :key="type" :value="type">
+                                            {{ type }}
+                                        </option>
                                     </select>
                                 </div>
                                 <!-- StartDate -->

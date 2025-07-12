@@ -4,10 +4,11 @@ import { towerEventService } from '@/services/TowerEventService.js';
 import { Pop } from '@/utils/Pop.js';
 import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import HomePage from './HomePage.vue';
 
 const route = useRoute()
 const eventDetails = computed(() => AppState.eventDetails)
-const attendees = computed(()=> AppState.attendees)
+const attendees = computed(() => AppState.attendees)
 
 const typeColors = {
     concert: 'primary',
@@ -37,8 +38,14 @@ async function getEventDetails() {
     <!-- Event Picture -->
     <div v-if="eventDetails?.coverImg" class="image-wrapper position-relative text-center pt-4">
         <div class="image-container">
-            <img class="img-fluid rounded coverImg" :src="eventDetails.coverImg" alt="">
+            <img v-if="eventDetails.isCanceled" class="img-fluid rounded coverImg"
+                src="https://media.istockphoto.com/id/1852299352/photo/cancelled-stamp-on-white-background.webp?a=1&b=1&s=612x612&w=0&k=20&c=4e9XIcgyk2CD3kjw4afrR4WFe7wnHSeWrR81x_NQ7YA="
+                alt="">
+            <img v-else-if="eventDetails.soldOut" class="img-fluid rounded coverImg"
+                src="https://media.istockphoto.com/id/810509198/photo/red-stamp-on-a-white-background-sold-out.webp?a=1&b=1&s=612x612&w=0&k=20&c=mbbCT1w_YEvlI-UPz4Zkk2MuqN96IHdjECI0Y05zj_I="
+                alt="">
 
+            <img v-else class="img-fluid rounded coverImg" :src="eventDetails.coverImg" alt="">
             <!-- Left blur -->
             <div class="blur-overlay blur-left"></div>
 
@@ -64,7 +71,15 @@ async function getEventDetails() {
 
             <div class="pt-4">
                 <h5 class="text-secondary">Date and Time</h5>
-                <div><i class="text-primary mdi mdi-clock"></i> Starts {{ eventDetails.formatStartDateWithTime() }}
+                <div v-if="eventDetails.isCanceled"><i class="text-primary mdi mdi-clock"></i> Event has been
+                    cancelled...
+                </div>
+                <div v-else-if="eventDetails.soldOut"><i class="text-primary mdi mdi-clock"></i> {{
+                    eventDetails.formatStartDateWithTime() }}
+                    <span class="text-danger">Sorry! This event sold out, tough luck</span>
+                </div>
+                <div v-else><i class="text-primary mdi mdi-clock"></i> Starts {{
+                    eventDetails.formatStartDateWithTime() }}
                 </div>
             </div>
 
@@ -97,12 +112,25 @@ async function getEventDetails() {
 
         <!-- Column B -->
         <div class="p-4 w-25">
-            <div class="p-4 bgBox text-center">
+            <div v-if="eventDetails.isCanceled" class="p-4 bgBox text-center">
+                <h5>Interested in going?</h5>
+                <p>Too friggin bad, the event was cancelled</p>
+                <RouterLink :to="{ name: 'Home' }">
+                    <button class="btn btn-primary">Go Home</button>
+                </RouterLink>
+            </div>
+            <div v-else-if="eventDetails.soldOut" class="p-4 bgBox text-center">
+                <h5>Sold Out!!!</h5>
+                <RouterLink :to="{ name: 'Home' }">
+                    <button class="btn btn-primary">Go Home</button>
+                </RouterLink>
+            </div>
+            <div v-else class="p-4 bgBox text-center">
                 <h5>Interested in going?</h5>
                 <p>Grab a ticket!</p>
                 <button class="btn btn-primary">Attend</button>
             </div>
-            
+
             <div class="text-end"><span class="text-success">{{ eventDetails.capacity }}</span> spots left</div>
 
             <div>

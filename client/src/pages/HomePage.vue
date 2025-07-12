@@ -6,6 +6,7 @@ import { Pop } from '@/utils/Pop.js';
 import { computed, onMounted } from 'vue';
 import { Modal } from 'bootstrap'
 import CreateEventModal from '@/components/CreateEventModal.vue';
+import Categories from '@/components/Categories.vue';
 
 
 // OnMounted
@@ -14,16 +15,9 @@ onMounted(() => {
 })
 
 // Computed
-const towerEvents = computed(() => AppState.towerEvents)
-const types = computed(() => AppState.types)
+const filteredEvents = computed(() => AppState.filteredEvents)
 const account = computed(() => AppState.account)
-const typeImages = {
-  concert: '🎸',
-  convention: '🫂',
-  digital: '🖥️',
-  sport: '⚽',
-  default: '❔'
-}
+
 
 // Functions
 
@@ -34,11 +28,6 @@ async function getEvents() {
   catch (error) {
     Pop.error(error);
   }
-}
-
-function openCreateModal() {
-  const modal = new Modal(document.getElementById('createEventModal'))
-  modal.show()
 }
 
 
@@ -71,39 +60,30 @@ function openCreateModal() {
         <p>Browse through community hosted events for all the things you know</p>
       </div>
       <!-- Create -->
-      <div v-if="account" class="col-md-5 border backGround p-4">
+      <div v-if="account?.id" class="col-md-5 border backGround p-4">
         <h5>
-          <i @click="openCreateModal" class="btn mdi mdi-plus p-2 fs-1"></i>
+          <i data-bs-toggle="modal" data-bs-target="#event-form" class="btn mdi mdi-plus p-2 fs-1"></i>
           Start an event to invite your friends!
         </h5>
         <p>Create your own Tower event, and draw from a <br />community of millions </p>
-        <button @click="openCreateModal" class="text-success btn btn-clear p-0">Create an event</button>
+        <button  data-bs-toggle="modal" data-bs-target="#event-form" class="text-success btn btn-clear p-0">Create an event</button>
       </div>
+      
       <!-- CreateEventModal -->
-      <CreateEventModal />
+      <CreateEventModal id="event-form" />
 
     </div>
   </section>
 
   <!-- Categories -->
   <h2 class="p-5">Explored top categories</h2>
-  <section class="container">
-    <div class="row justify-content-between">
-      <!-- Category Cards / Buttons -->
-      <div class="selectable backGround col-md-2 text-center card shadow p-4" v-for="type in types">
-        <div>
-          <div class="fs-1">{{ typeImages[type] || typeImages.default }} </div>
-        </div>
-        <div class="text-capitalize">{{ type }}</div>
-      </div>
-    </div>
-  </section>
+    <Categories />
 
   <!-- Events -->
   <h2 class="p-5"> Upcoming Events</h2>
   <section class="container">
     <div class="row p-2">
-      <EventCard class="selectable" v-for="towerEvent in towerEvents" :key="towerEvent.id" :towerEvent="towerEvent" />
+      <EventCard class="selectable" v-for="towerEvent in filteredEvents" :key="towerEvent.id" :towerEvent="towerEvent" />
     </div>
   </section>
 
