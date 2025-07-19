@@ -1,12 +1,7 @@
 <script setup>
-import { AppState } from '@/AppState.js';
 import { TowerEvent } from '@/models/TowerEvent.js';
-import { computed } from 'vue';
-
 
 const props = defineProps({ towerEvent: TowerEvent })
-
-// Type Pictures
 
 
 </script>
