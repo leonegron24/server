@@ -8,10 +8,10 @@ const props = defineProps({ towerEvent: TowerEvent })
 
 
 <template>
-    <div class="g-3">
+    <div class="g-3 selectable">
         <div class="position-relative">
             <RouterLink :to="{ name: 'EventDetails', params: { eventId: towerEvent.id } }">
-                <img class="coverImg img-fluid rounded" :src="towerEvent.coverImg" alt="">
+                <img class="position-relative coverImg img-fluid rounded" :src="towerEvent.coverImg" alt="">
             </RouterLink>
             <div v-if="towerEvent.isCanceled">
                 <div class="position-absolute top-0 border rounded bg-danger">Cancelled</div>

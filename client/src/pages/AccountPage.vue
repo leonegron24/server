@@ -75,7 +75,7 @@ async function deleteTicket(eventId) {
     <div class="container p-2">
       <h3>Your Events</h3>
       <div class="row mt-4 justify-content-between">
-        <div class="position-relative col-md-2 mb-4 selectable shadow"
+        <div class="position-relative col-md-2 col-2 mb-4"
           v-for="towerEvent in createdEvents" :key="towerEvent.id">
           <EventCard class="mx-1" :towerEvent="towerEvent" />
         </div>
@@ -85,7 +85,7 @@ async function deleteTicket(eventId) {
     <div class="container p-4">
       <h3>Upcoming Events</h3>
       <div class="row mt-4 justify-content-between">
-        <div class="col-md-2 selectable mb-4 shadow position-relative" v-for="towerEvent in myEvents" :key="towerEvent.id">
+        <div class="col-md-2 col-2 mx-2 mb-4 position-relative" v-for="towerEvent in myEvents" :key="towerEvent.id">
           <EventCard :towerEvent="towerEvent" />
           <div class="position-absolute top-0">
             <button @click="deleteTicket(towerEvent.id)" class="btn btn-sm btn-danger">delete ticket</button>

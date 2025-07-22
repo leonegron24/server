@@ -55,7 +55,7 @@ async function getEvents() {
   <section class="container">
     <div class="row justify-content-around">
       <!-- Search -->
-      <div class="col-md-5 border backGround p-4">
+      <div class="col-md-5 col-5 border backGround p-4">
         <h5><i class="btn mdi mdi-magnify p-2 fs-1"></i> Discover events you're interested in</h5>
         <p>Browse through community hosted events for all the things you know</p>
       </div>
@@ -77,14 +77,20 @@ async function getEvents() {
 
   <!-- Categories -->
   <h2 class="p-5">Explored top categories</h2>
-    <Categories />
+  <div class="container-fluid p-4">
+    <div class="row justify-content-around p-4">
+      <Categories />
+    </div>
+  </div>
 
   <!-- Events -->
   <h2 class="p-5"> Upcoming Events</h2>
-  <section class="container">
-    <div class="row p-2">
-      <div class="selectable col-md-4 pb-4" v-for="towerEvent in filteredEvents" :key="towerEvent.id">
-        <EventCard :towerEvent="towerEvent" />
+  <section class="container-fluid p-4 mx-4">
+    <div class="row p-4">
+      <div class="col-md-4 col-4 pb-4" v-for="towerEvent in filteredEvents" :key="towerEvent.id">
+        <div class="mx-1">
+          <EventCard class="text-center" :towerEvent="towerEvent" />
+        </div>
       </div>
     </div>
   </section>
