@@ -19,15 +19,22 @@ export const AppState = reactive({
 
   filteredEvents: [],
 
+  /** @type {TowerEvent []} */
+  myEvents: [],
+
   types: [],
 
   /** @type {TowerEvent} */
   eventDetails: null,
 
-  attendees: [],
-
   /** @type {Comment []} */
   comments: [],
+
+
+  /** @type {Ticket []} */
+  myTickets: [],
+
+  numberOfTickets: null, 
 
 
     /** @type {Ticket []} */

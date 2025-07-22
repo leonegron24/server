@@ -6,6 +6,14 @@ import { Comment } from "@/models/Comment.js"
 import { Ticket } from "@/models/Ticket.js"
 
 class TowerEventService {
+  async getMyEvents() {
+    const response = await api.get('api/events')
+    const myTickets = AppState.myTickets
+    const towerEvents = response.data.map(e => new TowerEvent(e))
+    const ticketEventIds = myTickets.map(t => t.eventId)
+    AppState.myEvents = towerEvents.filter(e => ticketEventIds.includes(e.id))
+    console.log('my Events Service: ', AppState.myEvents)
+  }
 
   async getTickets(eventId) {
       const tickets = await api.get(`api/events/${eventId}/tickets`)

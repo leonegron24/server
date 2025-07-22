@@ -18,7 +18,7 @@ function logout() {
 <template>
   <span class="text-secondary">
     <button class="btn selectable text-secondary" @click="login" v-if="!identity">
-      Login
+      Login / Create Account
     </button>
     <div v-else>
       <div class="dropdown">

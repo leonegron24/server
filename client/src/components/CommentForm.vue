@@ -12,6 +12,7 @@ async function postComment(){
     try {
       const eventId = route.params.eventId
       await towerEventService.postComment(commentBody.value, eventId)
+      commentBody.value = ''
     }
     catch (error){
       Pop.error(error);

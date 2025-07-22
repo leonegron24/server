@@ -8,7 +8,7 @@ const props = defineProps({ towerEvent: TowerEvent })
 
 
 <template>
-    <div class="col-md-4 g-3">
+    <div class="g-3">
         <div class="position-relative">
             <RouterLink :to="{ name: 'EventDetails', params: { eventId: towerEvent.id } }">
                 <img class="coverImg img-fluid rounded" :src="towerEvent.coverImg" alt="">

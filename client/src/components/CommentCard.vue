@@ -24,7 +24,7 @@ async function deleteComment(commentId){
 
 
 <template>
-    <div v-if="comment?.creator" class="card shadow p-4">
+    <div v-if="comment" class="card shadow p-4">
         <div class="d-flex align-items-baseline">
             <div>
                 <img class="profile rounded" :src="comment.creator.picture" alt="">
@@ -34,7 +34,7 @@ async function deleteComment(commentId){
                     <div class="fw-bold">
                         {{ comment.creator.name }}
                     </div>
-                    <div v-if="account?.id === eventDetails.creatorId">
+                    <div v-if="account?.id === comment.creatorId">
                         <button @click="deleteComment(comment.id)" class="btn btn-danger rounded-pill btn-sm">Delete</button>
                     </div>
                 </div>

@@ -7,13 +7,15 @@ import { useRoute } from 'vue-router';
 import CommentCard from '@/components/CommentCard.vue';
 import CommentForm from '@/components/CommentForm.vue';
 import { ticketService } from '@/services/TicketService.js';
+import Login from '@/components/Login.vue';
 
 const route = useRoute()
 const account = computed(() => AppState.account)
 const eventDetails = computed(() => AppState.eventDetails)
-const attendees = computed(() => AppState.eventTickets.map(t => t.profile?.name))
+const attendees = computed(() => new Set ([...AppState.eventTickets.map(t => t.profile?.name)]))
 const comments = computed(() => AppState.comments)
-const ticket = computed(() => AppState.eventTickets.find(t=> t?.accountId === account.value?.id))
+const ticket = computed(() => AppState.eventTickets.find(t => t?.accountId === account.value?.id))
+console.log('commentExists? ', comments.value)
 
 const typeColors = {
     concert: 'primary',
@@ -65,13 +67,13 @@ async function createTicket() {
     await ticketService.createTicket(eventId, accountId)
 }
 
-async function getTickets(){
+async function getTickets() {
     try {
         const eventId = route.params.eventId
         await towerEventService.getTickets(eventId)
     }
-    catch (error){
-      Pop.error(error);
+    catch (error) {
+        Pop.error(error);
     }
 }
 
@@ -139,13 +141,14 @@ async function getTickets(){
             <h5 class="pt-4">See what people are saying...</h5>
             <div class="bgBox py-4">
                 <!-- Add Comment -->
-                <CommentForm />
+                <CommentForm v-if="account" />
                 <!-- Comment Section -->
-                <div v-if="comments">
+                <div v-if="comments.length">
                     <div class="p-2 mx-4" v-for="comment in comments" :key="comment.id">
                         <CommentCard :comment="comment" />
                     </div>
                 </div>
+                <div class="text-center" v-else>No Comments have been made for this event</div>
             </div>
 
         </div>
@@ -170,6 +173,12 @@ async function getTickets(){
                 <RouterLink :to="{ name: 'Home' }">
                     <button class="btn btn-primary">Go Home</button>
                 </RouterLink>
+            </div>
+            <div v-else-if="!account" class="p-4 bgBox text-center">
+                <h5>Please log in or create an account to purchase a ticket to this event!</h5>
+                <div class="loginText">
+                    <Login />
+                </div>
             </div>
             <div v-else class="p-4 bgBox text-center">
                 <h5>Interested in going?</h5>
@@ -237,4 +246,5 @@ async function getTickets(){
 .blur-right {
     right: 0;
 }
+
 </style>
